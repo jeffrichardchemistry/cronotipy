@@ -5,7 +5,7 @@ A simple customizable notification scheduler created using the python language a
 This application depends on some dependencies for gi notify and sox works.
 
 ```
-$ sudo apt-get install python3-gi python3-gi-cairo gir1.2-notify-0.7 sox
+$ sudo apt-get install python3-setuptools python3-pyqt5 python3-gi python3-gi-cairo gir1.2-notify-0.7 sox
 ```
 
 <li><b>Install via setuptools</b></li>
