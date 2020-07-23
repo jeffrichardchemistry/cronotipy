@@ -1,4 +1,4 @@
-from cronotipy_ui import Ui_cronotipy_mw
+from cronotipy.cronotipy_ui import Ui_cronotipy_mw
 import sys
 from PyQt5.QtWidgets import (QLineEdit ,QLabel, QMainWindow, QDialog, QApplication,
                              QListWidget, QPushButton, QWidget, QVBoxLayout, QHBoxLayout,
@@ -11,6 +11,7 @@ from PyQt5.QtTest import QTest
 import subprocess
 import os
 import gi
+gi.require_version('Notify', '0.7')
 from gi.repository import Notify
 
 Notify.init('Cronotipy')
@@ -162,6 +163,7 @@ class cronotipy(QMainWindow, QDialog):
           
     def addLines(self):
         get = AddNotifiy() #instancing dialog
+        get.setWindowTitle('Add a notifier')
         get.setStyleSheet("background-color: rgba(84, 84, 84, 0.5);")
         state = get.exec_() # show dialog
                 
@@ -322,10 +324,13 @@ style_progbar = """
     #    for index in range(self.listwd.count()):
     #        item = self.listwd.item(index)
     #        item.setFlags(item.flags() | Qt.ItemIsEditable)  
-if __name__ == '__main__':
+def runGUI():
     app = QApplication(sys.argv)
     gui = cronotipy()
     gui.show()   
     
     sys.exit(app.exec_())
+
+""" if __name__ == '__main__':
+    runGUI() """
         

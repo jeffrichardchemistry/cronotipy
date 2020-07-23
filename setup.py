@@ -4,7 +4,7 @@ with open("README.md", 'r') as fr:
 	description = fr.read()
 
 setup(
-    name='Cronotipy',
+    name='cronotipy',
     version='1.0.0',
     url='https://github.com/jeffrichardchemistry/cronotipy',
     license='GNU GPL 3',
@@ -15,7 +15,8 @@ setup(
     long_description = description,
     long_description_content_type = "text/markdown",
     packages=['cronotipy'],
-    install_requires=['PyQt5'],
+    include_package_data = True,
+    install_requires=['PyGObject', 'pycairo' ,'PyQt5'],
 	classifiers = [
 		'Intended Audience :: Developers',
 		'Environment :: X11 Applications :: Qt',
