@@ -29,5 +29,5 @@ python3 setup.py install
 # Run
 To run this application type in a linux terminal:
 ```
-python3 -m cronotipy
+$ python3 -m cronotipy
 ```
