@@ -1,4 +1,5 @@
-from cronotipy.cronotipy_ui import Ui_cronotipy_mw
+#from cronotipy.cronotipy_ui import Ui_cronotipy_mw
+from cronotipy_ui import Ui_cronotipy_mw
 import sys
 from PyQt5.QtWidgets import (QLineEdit ,QLabel, QMainWindow, QDialog, QApplication,
                              QListWidget, QPushButton, QWidget, QVBoxLayout, QHBoxLayout,
@@ -40,6 +41,7 @@ class cronotipy(QMainWindow, QDialog):
         self.startcronotipy = True #bool to while in start (start/stop)
         self.isOnOff_Notify = True #state of notify checkable menu
         self.isOnOff_Sound = True #state of sound checkable menu
+        self.isOnOff_loop = False
         
     def initUI(self):
 
@@ -50,9 +52,13 @@ class cronotipy(QMainWindow, QDialog):
 
         #Buttons
         self.cronotipy_ui.btn_create.clicked.connect(self.addLines)
+        self.cronotipy_ui.btn_create.setStyleSheet(style_buttons)
         self.cronotipy_ui.btn_remove.clicked.connect(self.removeLines)
+        self.cronotipy_ui.btn_remove.setStyleSheet(style_buttons)
         self.btn_start = QPushButton('Start')
+        self.btn_start.setStyleSheet(style_buttons)
         self.btn_stop = QPushButton('Stop')
+        self.btn_stop.setStyleSheet(style_buttons)
         self.btn_start.clicked.connect(self.start)
         self.btn_stop.clicked.connect(self.stop)
 
@@ -75,6 +81,9 @@ class cronotipy(QMainWindow, QDialog):
         #MenuBar
         self.cronotipy_ui.menu_Notify_On_Off.triggered.connect(self.turnOnOffnotify)
         self.cronotipy_ui.menu_Sound_On_Off.triggered.connect(self.turnOnOffsound)
+        self.cronotipy_ui.menu_Loop_On_Off.triggered.connect(self.turnOnOffloop)
+        self.cronotipy_ui.menu_Quit.triggered.connect(self.quitMenu)
+
 
 
     def createDockwidget(self):
@@ -133,11 +142,16 @@ class cronotipy(QMainWindow, QDialog):
                 self.startcronotipy = False
                 if self.isOnOff_Notify:
                     Notify.Notification.new('Done!', 'All notifications are over.', path_logo).show()
+                
 
             QTest.qWait(1000)
+        #loop
+        if self.isOnOff_loop:
+            cronotipy.start(self)
     
     def stop(self):
         self.startcronotipy = False
+        self.isOnOff_loop = False
 
     def renameActualize(self):
         #cronotipy.actualizeEditables(self)
@@ -239,9 +253,23 @@ class cronotipy(QMainWindow, QDialog):
         if not self.cronotipy_ui.menu_Sound_On_Off.isChecked():
             self.isOnOff_Sound = False
     
+    def turnOnOffloop(self):
+        if self.cronotipy_ui.menu_Loop_On_Off.isChecked():
+            self.isOnOff_loop = True
+            
+        
+        if not self.cronotipy_ui.menu_Loop_On_Off.isChecked():
+            self.isOnOff_loop = False
+
+        print(self.cronotipy_ui.menu_Loop_On_Off.isChecked())
+
+    def quitMenu(self):
+        cronotipy.stop(self)
+        self.close()
+
     def closeEvent(self, event):
         reply = QMessageBox.question(self, 'Closing Window', 'Do you really want to close this application?',
-                                     QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+                                    QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
         if reply == QMessageBox.Yes:
             cronotipy.stop(self)
             event.accept()
@@ -301,10 +329,13 @@ class AddNotifiy(QDialog):
         self.setLayout(layout)
 
 style = "color: rgb(255, 255, 255); \
-         background-color: rgba(84, 84, 84, 0.1);"
+         background-color: rgba(84, 84, 84, 0.4);"
 
 style_scrollbar = "color: rgb(255, 255, 255); \
                    background-color: rgba(84, 84, 84, 0.0);"
+
+style_buttons = "color: rgb(255, 255, 255); \
+                   background-color: rgba(84, 84, 84, 0.4);"
 
 style_progbar = """
             QProgressBar{
@@ -331,6 +362,6 @@ def runGUI():
     
     sys.exit(app.exec_())
 
-""" if __name__ == '__main__':
-    runGUI() """
+if __name__ == '__main__':
+    runGUI()
         
