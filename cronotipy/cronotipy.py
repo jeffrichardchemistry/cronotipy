@@ -357,6 +357,7 @@ style_progbar = """
     #        item.setFlags(item.flags() | Qt.ItemIsEditable)  
 def runGUI():
     app = QApplication(sys.argv)
+    app.setStyle('Fusion')
     gui = cronotipy()
     gui.show()   
     
@@ -364,4 +365,5 @@ def runGUI():
 
 """ if __name__ == '__main__':
     runGUI() """
+
         
