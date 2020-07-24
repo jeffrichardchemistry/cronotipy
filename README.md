@@ -15,16 +15,22 @@ git clone https://github.com/jeffrichardchemistry/cronotipy
 cd cronotipy
 sudo python3 setup.py install
 ```
+
 <li><b>Install in VirtualEnv</b></li>
+
 May not work on VirtualEnvs directly, so install pip dependencies manually.
+
 ```
 venv$ pip3 install PyGObject pycairo PyQt5
 ```
+
 and then install cronotipy.
 ```
+
 venv$ git clone https://github.com/jeffrichardchemistry/cronotipy
 venv$ cd cronotipy
 venv$ python3 setup.py install
+
 ```
 
 # Run
