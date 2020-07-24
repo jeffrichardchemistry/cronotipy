@@ -1,5 +1,5 @@
-#from cronotipy.cronotipy_ui import Ui_cronotipy_mw
-from cronotipy_ui import Ui_cronotipy_mw
+from cronotipy.cronotipy_ui import Ui_cronotipy_mw
+#from cronotipy_ui import Ui_cronotipy_mw
 import sys
 from PyQt5.QtWidgets import (QLineEdit ,QLabel, QMainWindow, QDialog, QApplication,
                              QListWidget, QPushButton, QWidget, QVBoxLayout, QHBoxLayout,
@@ -362,6 +362,6 @@ def runGUI():
     
     sys.exit(app.exec_())
 
-if __name__ == '__main__':
-    runGUI()
+""" if __name__ == '__main__':
+    runGUI() """
         
