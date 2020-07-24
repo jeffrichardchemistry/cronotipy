@@ -26,11 +26,9 @@ venv$ pip3 install PyGObject pycairo PyQt5
 
 and then install cronotipy.
 ```
-
 venv$ git clone https://github.com/jeffrichardchemistry/cronotipy
 venv$ cd cronotipy
 venv$ python3 setup.py install
-
 ```
 
 # Run
