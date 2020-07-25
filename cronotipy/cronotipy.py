@@ -4,7 +4,7 @@ import sys
 from PyQt5.QtWidgets import (QLineEdit ,QLabel, QMainWindow, QDialog, QApplication,
                              QListWidget, QPushButton, QWidget, QVBoxLayout, QHBoxLayout,
                              QAbstractItemView, QFormLayout, QGridLayout, QSpinBox, QProgressBar,
-                             QMessageBox)
+                             QMessageBox, QFileDialog)
 from PyQt5.QtCore import Qt, QRect, QSize, QTimer
 from PyQt5.QtGui import QFont, QGuiApplication, QIcon
 from PyQt5 import QtCore
@@ -83,7 +83,8 @@ class cronotipy(QMainWindow, QDialog):
         self.cronotipy_ui.menu_Sound_On_Off.triggered.connect(self.turnOnOffsound)
         self.cronotipy_ui.menu_Loop_On_Off.triggered.connect(self.turnOnOffloop)
         self.cronotipy_ui.menu_Quit.triggered.connect(self.quitMenu)
-
+        self.cronotipy_ui.menu_Save.triggered.connect(self.saveProfile)
+        self.cronotipy_ui.menu_Open.triggered.connect(self.openProfile)
 
 
     def createDockwidget(self):
@@ -97,9 +98,11 @@ class cronotipy(QMainWindow, QDialog):
         
         return self.dockedwidget
 
-
     def start(self):
-        self.startcronotipy = True
+        self.startcronotipy = True #for while
+
+        if self.cronotipy_ui.menu_Loop_On_Off.isChecked(): #for loop
+            self.isOnOff_loop = True
 
         get_titles = [self.listwd.item(item).text() for item in range(self.listwd.count())]
         title_message = {}
@@ -140,6 +143,7 @@ class cronotipy(QMainWindow, QDialog):
 
             elif cnt_finish == len(seconds_title): #when the last notify finish
                 self.startcronotipy = False
+
                 if self.isOnOff_Notify:
                     Notify.Notification.new('Done!', 'All notifications are over.', path_logo).show()
                 
@@ -147,6 +151,7 @@ class cronotipy(QMainWindow, QDialog):
             QTest.qWait(1000)
         #loop
         if self.isOnOff_loop:
+            self.startcronotipy = True
             cronotipy.start(self)
     
     def stop(self):
@@ -256,8 +261,7 @@ class cronotipy(QMainWindow, QDialog):
     def turnOnOffloop(self):
         if self.cronotipy_ui.menu_Loop_On_Off.isChecked():
             self.isOnOff_loop = True
-            
-        
+                    
         if not self.cronotipy_ui.menu_Loop_On_Off.isChecked():
             self.isOnOff_loop = False
 
@@ -285,6 +289,53 @@ class cronotipy(QMainWindow, QDialog):
         elif title in self.titles_typed:
             self.titles_typed.append(title+'{}'.format(n_titles_contained))
             return title+'{}'.format(n_titles_contained)
+
+    def openProfile(self):
+        get_dir, _ = QFileDialog.getOpenFileName(self, 'Open Profile for Cronotipy', '', '(*.cnp) ;; all*') #open dir/namefile as a string
+        with open(get_dir, 'r') as fileopen:
+            get_filetext = fileopen.readlines()
+            #print(get_filetext)
+
+            time = []
+            for i in get_filetext: #each iterations have the three information
+                title_time_text = i.split('-')
+                print(type(title_time_text[1]))
+                for t in title_time_text[1].split(','): #geting time
+                    time.append(int(t.replace('[', '').replace(']', ''))) #formating time's list str to int and store
+                
+                cronotipy._addLinesFromOpen(self,title_time_text[0], time, title_time_text[2]) #Add this lines
+                time = []
+
+    def _addLinesFromOpen(self, title, times, text):                
+        #get time from spinboxes
+        time = times
+        get_title = title #get the typed
+        self.titles_typed.append(get_title) #store titles to check equal titles
+
+        get_title = cronotipy._testTitle(self, title=get_title)
+
+        if get_title == '':
+            pass
+        else:
+            self.listwd.addItem(get_title) #add a item in QList "title - left"
+            cronotipy.addText2ScrollBar(self, title=get_title)  #add a QLine in QScroll "message - right"
+            self.findChild(QLineEdit, get_title).setText(text)
+            cronotipy.addProgressbar2ScrollBar(self, title=get_title, time=time) #add a QProgressBar in QSCROLL bot
+
+            self.title_and_time[get_title] = time
+
+    def saveProfile(self):
+        get_dir, _ = QFileDialog.getSaveFileName(self, 'Save Profile', '') #open a Dir with files name
+        if get_dir.endswith('.cnp'):
+            with open(get_dir, 'w') as filesave:
+                for key, value in self.title_and_time.items():
+                    get_text = self.findChild(QLineEdit, key).text()
+                    filesave.write(str(key)+'-'+str(value)+'-'+get_text+'\n')
+        else:
+            with open(get_dir+'.cnp', 'w') as filesave:
+                for key, value in self.title_and_time.items():
+                    get_text = self.findChild(QLineEdit, key).text()
+                    filesave.write(str(key)+'-'+str(value)+'-'+get_text+'\n')
 
 #Custom Dialog to add a title and rename
 class AddNotifiy(QDialog):
