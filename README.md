@@ -1,4 +1,7 @@
 # Cronotipy
+
+<img src="/cronotipy/figs/logo.svg?raw=true" width=75 align="right">
+
 A simple customizable notification scheduler created using the python language and the pyqt5 framework. This application uses tools native to the Linux environment such as "Notify" from the gi repository and the sox package for sound notifications. This application was tested on PopOS 20.04, Ubuntu 20.04, Mint 20 and Elementary OS 5.1.
 
 <img src="/cronotipy/figs/cronotipy.png?raw=true" align="center">
