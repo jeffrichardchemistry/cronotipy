@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Cronotipy
+GenericName=Cronotipy
+Comment=A Notifier
+Exec=/usr/local/bin/cronotipy
+Terminal=false
+Type=Application
+Icon=cronotipy/figs/logo.svg
+StartupNotify=false
+Categories=Network;
