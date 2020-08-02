@@ -1,0 +1,54 @@
+#!/bin/python3
+
+import os
+import shutil
+
+ABSOLUT_FIG_PATH = os.path.dirname(os.path.realpath(__file__)) #this directory change to setuptools's directory (/usr/local/lib etc)
+LOCAL_FIG_PATH = '/icon.svg'
+HOME = os.getenv("HOME")
+
+DESKTO_ENTRY = """[Desktop Entry]
+Name=Cronotipy
+GenericName=Cronotipy
+Comment=A Notifier
+Exec=cronotipy
+Terminal=false
+Type=Application
+Icon={}
+StartupNotify=false
+Categories=Network;"""
+
+if os.geteuid() == 0:
+    path_desktop_sudo = '/usr/share/applications/'
+    path_img2sudo = '/usr/share/cronotipy/'
+
+    if os.path.exists(path_img2sudo):
+        pass
+    else:
+        os.mkdir(path_img2sudo)
+
+    path_fig = ABSOLUT_FIG_PATH+LOCAL_FIG_PATH
+    shutil.copy(path_fig, path_img2sudo)
+
+    DESKTO_ENTRY_SUDO = DESKTO_ENTRY.format(path_img2sudo+'icon.svg')
+
+    make_file = open(path_desktop_sudo+'cronotipy.desktop', 'w')
+    make_file_write = make_file.write(DESKTO_ENTRY_SUDO)
+    make_file.close()
+
+else:
+    path_user_fig = HOME+'/.local/share/cronotipy/'
+    path_desktop_user = HOME+'/.local/share/applications/'
+    if os.path.exists(path_user_fig):
+        pass
+    else:
+        os.mkdir(path_user_fig)
+
+    path_fig = ABSOLUT_FIG_PATH+LOCAL_FIG_PATH
+    shutil.copy(path_fig, path_user_fig)
+
+    DESKTO_ENTRY_USER = DESKTO_ENTRY.format(path_user_fig+'icon.svg')
+    
+    make_file = open(path_desktop_user+'cronotipy.desktop', 'w')
+    make_file_write = make_file.write(DESKTO_ENTRY_USER)
+    make_file.close()

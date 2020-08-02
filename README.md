@@ -60,5 +60,5 @@ sudo apt install -f
 # Run
 To run this application type in a linux terminal:
 ```
-$ python3 -m cronotipy
+$ cronotipy
 ```

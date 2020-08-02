@@ -1,2 +1,4 @@
 include cronotipy/sounds/*
 include cronotipy/figs/*
+include bin/*
+include scripts/*

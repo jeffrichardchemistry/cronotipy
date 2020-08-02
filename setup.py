@@ -1,4 +1,5 @@
 from setuptools import setup, find_packages
+import subprocess
 
 with open("README.md", 'r') as fr:
 	description = fr.read()
@@ -16,7 +17,7 @@ setup(
     long_description_content_type = "text/markdown",
     packages=['cronotipy'],
     include_package_data = True,
-	scripts=['bin/cronotipy'],
+	scripts=['bin/cronotipy', 'scripts/make_cronotipy_icon', 'scripts/icon.svg'],
     install_requires=['PyGObject', 'pycairo' ,'PyQt5'],
 	classifiers = [
 		'Intended Audience :: Developers',
@@ -32,3 +33,5 @@ setup(
 		'Programming Language :: Python :: 3.6',
 		'Programming Language :: Python :: 3.8']
 )
+
+subprocess.run('make_cronotipy_icon')
