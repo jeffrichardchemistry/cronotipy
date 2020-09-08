@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/281990935.svg)](https://zenodo.org/badge/latestdoi/281990935)
+
 # Cronotipy
 
 <img src="/cronotipy/figs/logo.svg?raw=true" width=75 align="right">
